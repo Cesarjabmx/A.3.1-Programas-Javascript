@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Adivina el n&uacute;mero</title>
+        <meta charset ="UTF-8">
+    </head>
+
+    <body>
+        <script>
+            function Adivina(numero,numeroUsuario){
+
+                if(numeroUsuario<numero){
+                    alert("Muy debajo");
+                    return false;
+                } else  if(numeroUsuario>numero){
+                    alert("Muy arriba");
+                    return false;
+                }else if (numeroUsuario==numero){
+                    return true;
+                }
+
+            }
+            
+            let contador=0; let continuar=false;
+            let num = parseInt(Math.random()*10)+1;
+            let numUsuario = parseInt(prompt('Adivina el número que estoy pensando del 1 al 10 :D'));
+            continuar = Adivina(num,numUsuario);
+
+            while(continuar!=true){
+                numUsuario=parseInt(prompt('Intenta de nuevo'));
+                continuar = Adivina(num,numUsuario);
+                contador++;
+            };
+            
+            prompt("¡Felicidades, adivinaste :D! "+ " Número de intentos: "+contador);
+            document.write("¡Felicidades, adivinaste :D! "+ " Número de intentos: "+contador);
+        </script>
+    </body>
+</html>
