@@ -1,0 +1,231 @@
+<html>
+
+ <head>
+  <title>Reloj-Puntero-Menu></title>
+  <link rel="stylesheet" type="text/css" href="estilo1.css">
+  <style type="text/css">
+   </style>
+  </head>
+
+  <body onload="mueveReloj()">
+    
+    <center>
+      <h1>Aquí vemos el reloj funcionando...</h1> 
+
+      <form name="form_reloj">
+      <input type="text" name="reloj" size="10" style="background-color : Black; color : White; font-family : Verdana, Arial, Helvetica; font-size : 8pt; text-align : center;" onfocus="window.document.form_reloj.reloj.blur()">
+      </form>
+    </center>
+
+    <div class="clock" >
+      <svg class="circle" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+
+        <circle cx="60" cy="60" r="60" class="outer-circle"/>
+        <circle cx="60" cy="60" r="57" />
+
+        <line x1="60" y1="20" x2="60" y2="60" class="hours" />
+        <line x1="60" y1="2" x2="60" y2="60" class="minutes" />
+        <line x1="60" y1="0" x2="60" y2="60" class="seconds" />
+
+        <circle cx="60" cy="60" r="3" class="center-circle" />
+        
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        <line x1="60" y1="5" x2="60" y2="10" class="line" />
+      </svg>
+    </div>
+
+    <div class='dropdown'>
+      <div class='title pointerCursor'>Seleccione una opción <i class="fa fa-angle-right"></i></div>
+      
+      <div class='menu pointerCursor hide'>
+        <div class='option' id='option1' ><a href="https://www.youtube.com/@cesarjabmx/videos">Canal Youtube</a></div>
+        <div class='option' id='option2'><a href="https://twitter.com/cesarjabmx">Twitter</a></div>
+        </div>
+      </div>
+    </div>
+
+
+    <script language="JavaScript">
+      function mueveReloj(){
+          momentoActual = new Date()
+          hora = momentoActual.getHours()
+          minuto = momentoActual.getMinutes()
+          segundo = momentoActual.getSeconds()
+      
+          str_segundo = new String (segundo)
+          if (str_segundo.length == 1)
+             segundo = "0" + segundo
+      
+          str_minuto = new String (minuto)
+          if (str_minuto.length == 1)
+             minuto = "0" + minuto
+      
+          str_hora = new String (hora)
+          if (str_hora.length == 1)
+             hora = "0" + hora
+      
+          horaImprimible = hora + " : " + minuto + " : " + segundo
+      
+          document.form_reloj.reloj.value = horaImprimible
+      
+          setTimeout("mueveReloj()",1000)
+      }
+      </script>
+
+    <script>
+      //Script toggleMenu
+    function toggleClass(elem,className){
+      if (elem.className.indexOf(className) !== -1){
+        elem.className = elem.className.replace(className,'');
+      }
+      else{
+        elem.className = elem.className.replace(/\s+/g,' ') + 	' ' + className;
+      }
+
+      return elem;
+    }
+
+    function toggleDisplay(elem){
+      const curDisplayStyle = elem.style.display;			
+
+      if (curDisplayStyle === 'none' || curDisplayStyle === ''){
+        elem.style.display = 'block';
+      }
+      else{
+        elem.style.display = 'none';
+      }
+
+    }
+
+    function toggleMenuDisplay(e){
+      const dropdown = e.currentTarget.parentNode;
+      const menu = dropdown.querySelector('.menu');
+      const icon = dropdown.querySelector('.fa-angle-right');
+
+      toggleClass(menu,'hide');
+      toggleClass(icon,'rotate-90');
+    }
+
+    function handleOptionSelected(e){
+
+      toggleClass(e.target.parentNode, 'hide');
+
+      const id = e.target.id;
+      const newValue = e.target.textContent + ' ';
+      const titleElem = document.querySelector('.dropdown .title');
+      const icon = document.querySelector('.dropdown .title .fa');
+
+
+    titleElem.textContent = newValue;
+    titleElem.appendChild(icon);
+
+    //trigger custom event
+    document.querySelector('.dropdown .title').dispatchEvent(new Event('change'));
+      //setTimeout is used so transition is properly shown
+    setTimeout(() => toggleClass(icon,'rotate-90',0));
+    }
+
+    function handleTitleChange(e){
+      const result = document.getElementById('result');
+
+      //result.innerHTML = 'The result is: ' + e.target.textContent;
+    }
+
+    //get elements
+    const dropdownTitle = document.querySelector('.dropdown .title');
+    const dropdownOptions = document.querySelectorAll('.dropdown .option');
+
+    //bind listeners to these elements
+    dropdownTitle.addEventListener('click', toggleMenuDisplay);
+
+    dropdownOptions.forEach(option => option.addEventListener('click',handleOptionSelected));
+
+    document.querySelector('.dropdown .title').addEventListener('change',handleTitleChange);
+
+    </script>
+
+    <h1>Estilo 1 CSS</h1>
+    <h1>Instituto Tecnológico de Tehuacán</h1>
+
+    
+
+  <script>
+    (function () {
+   calculateHourDegrees();
+   calculateMinuteDegrees();
+   calculateSeconds();
+   calculateLines();
+  })();
+
+    function linearMap(value, min, max, newMin, newMax) {
+      return newMin + (newMax - newMin) * (value - min) / (max - min);
+    }
+    
+    function calculateLines() {
+    const lines = document.querySelectorAll(".line");
+    const numberLines = lines.length;
+    for (let i = 0; i < numberLines; i++) {
+    const line = lines[i];
+    const angle = linearMap(i, 0, numberLines, 0, 360);
+    line.style.transform = `rotate(${angle}deg)`;
+    }
+    }
+
+    function calculateHourDegrees() {
+    const currentHour = new Date().getHours() - 12;
+    const angle = linearMap(currentHour, 0, 12, 0, 360);
+    document.querySelector(".hours").style.transform = `rotate(${angle}deg)`;
+    }
+
+    function calculateMinuteDegrees() {
+    const currentMinutes = new Date().getMinutes();
+    const angle = linearMap(currentMinutes, 0, 60, 0, 360);
+    document.querySelector(".minutes").style.transform = `rotate(${angle}deg)`;
+    }
+
+    function calculateSeconds() {
+    const currentMinutes = new Date().getSeconds();
+    const angle = linearMap(currentMinutes, 0, 60, 0, 360);
+    document.querySelector(".seconds").style.transform = `rotate(${angle}deg)`;
+    }
+
+    (function () {
+    setInterval(() => {
+    calculateHourDegrees();
+    calculateMinuteDegrees();
+    calculateSeconds();
+    }, 1000); 
+    }
+  )();
+
+  
+  </script>
+
+  <script>
+      document.getElementsByTagName("body")[0].style.cursor = "url('http://wiki-devel.sugarlabs.org/images/e/e2/Arrow.cur'), auto";
+  </script>
+
+
+  
+
+  <div id="mi_estilo">Ingeniería en Sistemas computacionales</div>
+
+  <div class="nuestro_estilo">Programación web</div>
+
+  <p class="nuestro_estilo">El instituto Tecnológico de Tehuacán pertenece al TECNM y cuenta con 10 carreras y 2 posgrados.
+Es especial, la carrera de Ingeniería en Sistemas Computacionales cuenta con una matrículo de más de 200 alumnos de la ciudad de Tehuacán
+y su región.</p>
+
+  <p style="text-align:center; font-style:italic;color:purple;font-size:large;">Todas las carreras de ITTehuacán están viculadas con empresas de la región y nacionales, así con universidades
+de Colombia y Uruguay.</p>
+</html>
