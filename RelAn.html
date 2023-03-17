@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reloj analogico</title>
+</head>
+<body>
+    <div class="clock" >
+        <svg class="circle" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+  
+          <circle cx="60" cy="60" r="60" class="outer-circle"/>
+          <circle cx="60" cy="60" r="57" />
+  
+          <line x1="60" y1="20" x2="60" y2="60" class="hours" />
+          <line x1="60" y1="2" x2="60" y2="60" class="minutes" />
+          <line x1="60" y1="0" x2="60" y2="60" class="seconds" />
+  
+          <circle cx="60" cy="60" r="3" class="center-circle" />
+          
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+          <line x1="60" y1="5" x2="60" y2="10" class="line" />
+        </svg>
+      </div>
+
+      <script language="JavaScript">
+        function mueveReloj(){
+            momentoActual = new Date()
+            hora = momentoActual.getHours()
+            minuto = momentoActual.getMinutes()
+            segundo = momentoActual.getSeconds()
+        
+            str_segundo = new String (segundo)
+            if (str_segundo.length == 1)
+               segundo = "0" + segundo
+        
+            str_minuto = new String (minuto)
+            if (str_minuto.length == 1)
+               minuto = "0" + minuto
+        
+            str_hora = new String (hora)
+            if (str_hora.length == 1)
+               hora = "0" + hora
+        
+            horaImprimible = hora + " : " + minuto + " : " + segundo
+        
+            document.form_reloj.reloj.value = horaImprimible
+        
+            setTimeout("mueveReloj()",1000)
+        }
+        </script>
+
+<script>
+    (function () {
+   calculateHourDegrees();
+   calculateMinuteDegrees();
+   calculateSeconds();
+   calculateLines();
+  })();
+
+    function linearMap(value, min, max, newMin, newMax) {
+      return newMin + (newMax - newMin) * (value - min) / (max - min);
+    }
+    
+    function calculateLines() {
+    const lines = document.querySelectorAll(".line");
+    const numberLines = lines.length;
+    for (let i = 0; i < numberLines; i++) {
+    const line = lines[i];
+    const angle = linearMap(i, 0, numberLines, 0, 360);
+    line.style.transform = `rotate(${angle}deg)`;
+    }
+    }
+
+    function calculateHourDegrees() {
+    const currentHour = new Date().getHours() - 12;
+    const angle = linearMap(currentHour, 0, 12, 0, 360);
+    document.querySelector(".hours").style.transform = `rotate(${angle}deg)`;
+    }
+
+    function calculateMinuteDegrees() {
+    const currentMinutes = new Date().getMinutes();
+    const angle = linearMap(currentMinutes, 0, 60, 0, 360);
+    document.querySelector(".minutes").style.transform = `rotate(${angle}deg)`;
+    }
+
+    function calculateSeconds() {
+    const currentMinutes = new Date().getSeconds();
+    const angle = linearMap(currentMinutes, 0, 60, 0, 360);
+    document.querySelector(".seconds").style.transform = `rotate(${angle}deg)`;
+    }
+
+    (function () {
+    setInterval(() => {
+    calculateHourDegrees();
+    calculateMinuteDegrees();
+    calculateSeconds();
+    }, 1000); 
+    }
+  )();
+
+  
+  </script>
+        <style>
+
+h1 {
+	color:	rgb(0, 26, 255);
+	font-style:	italic;
+	text-align:	center;
+	font-size:	xx-large;
+    }
+
+    #mi_estilo {
+     color:		rgb(0, 255, 115);
+     text-align:	center;
+     font-size:		large;
+    }
+    
+    .nuestro_estilo{
+      color:		green;
+      text-align:	center;
+      font-size:	large;
+    }    
+                .clock {
+      float:right;
+      margin: 0px auto;
+      width: 150px;
+      height: 150px;
+      fill: rgb(255, 0, 0)
+    }
+    
+    .hours,
+    .minutes,
+    .seconds {
+      transform-origin: center;
+      stroke-linecap: round;
+    }
+    
+    .hours {
+      stroke: rgb(48, 133, 66);
+      stroke-width: 3px; 
+      transition: transform 1s ease-in-out;
+    }
+    .minutes {
+      stroke-width: 2px; 
+      stroke: rgb(0, 140, 255);
+      transition: transform 1s ease-in-out;
+    }
+    .seconds {
+      stroke: white;
+    }
+
+    .outer-circle,
+    .center-circle {
+      fill: DarkSlateGray;
+    }
+
+    .line {
+      stroke-width: 1px;
+      stroke: white;
+      stroke-linecap: round;
+      transform-origin: center;
+    }
+
+    .hide {
+      max-height: 0 !important;
+  }
+
+  .rotate-90{
+    transform: rotate(90deg);
+  }
+        </style>
+    
+</body>
+</html>
